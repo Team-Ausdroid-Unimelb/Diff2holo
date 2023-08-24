@@ -15,9 +15,9 @@ Diff2Holo::Diff2Holo(tf2_ros::Buffer& tfBuffer) :
 void Diff2Holo::get_transform() {
     ros::Duration timeout(0.1);
 
-    if (tfBuffer_.canTransform("base_link", unicycle_frame, 
+    if (tfBuffer_.canTransform(unicycle_frame, "base_link", 
         ros::Time(0), timeout))
-        trans = tfBuffer_.lookupTransform("base_link", unicycle_frame, 
+        trans = tfBuffer_.lookupTransform(unicycle_frame, "base_link", 
             ros::Time(0), timeout);
     else 
         ROS_WARN("Transform from %s to \"base_link\" is not available", 
@@ -46,6 +46,7 @@ void Diff2Holo::convert2D(const Twist& in, Twist& out,
 void Diff2Holo::twistCallback(const Twist::ConstPtr& vel) {
     vel_unicycle.linear.x = vel->linear.x;
     vel_unicycle.angular.z = vel->angular.z;
+    get_transform();
     convert2D(vel_unicycle, vel_mecanum, trans);
 
     vel_pub_.publish(vel_mecanum);
