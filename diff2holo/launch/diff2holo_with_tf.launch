@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <launch>
     <node pkg="tf2_ros" type="static_transform_publisher" name="diff2holoTF"
-        args="-0.1 0.0 0.0 0.0 0.0 0.0 unicycle_base base_link" />
+        args="-0.1 0.0 0.0 0.0 0.0 0.0 Robot_b base_link" />
 
-    <node pkg="diff2holo" type="diff2holo_node" name="diff2holo_node"/>
+    <node pkg="diff2holo" type="diff2holo_node" name="diff2holo_node">
+        <param name="unicycle_frame" type="str" value="Robot_b"/>
+    </node>
 </launch>

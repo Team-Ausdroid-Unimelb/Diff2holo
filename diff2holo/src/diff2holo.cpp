@@ -7,6 +7,7 @@ Diff2Holo::Diff2Holo(tf2_ros::Buffer& tfBuffer) :
     vel_sub_ = nh.subscribe<Twist>("/unicycle_vel", 10, 
         boost::bind(&Diff2Holo::twistCallback, this, _1));
     vel_pub_ = nh.advertise<Twist>("/cmd_vel", 10);
+    nh.param<std::string>("unicycle_frame", unicycle_frame, "Robot_r");
 
     zeroVel(vel_unicycle); 
     zeroVel(vel_mecanum);
