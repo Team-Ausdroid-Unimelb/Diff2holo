@@ -7,5 +7,7 @@
 
     <node pkg="diff2holo" type="diff2holo_node" name="diff2holo_node">
         <param name="unicycle_frame" type="str" value="$(arg robot_frame)"/>
+        <param name="v_max" type="double" value="1.0"/>
+        <param name="w_max" type="double" value="1.0"/>
     </node>
 </launch>

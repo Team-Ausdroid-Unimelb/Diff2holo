@@ -12,6 +12,8 @@ public:
     Twist vel_unicycle; // Input
     Twist vel_mecanum; // Output 
     std::string unicycle_frame; // Frame name of input velocity
+
+    double v_max, w_max; 
     
     Diff2Holo(tf2_ros::Buffer& tfBuffer);
     void twistCallback(const Twist::ConstPtr& vel);

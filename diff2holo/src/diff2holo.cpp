@@ -8,6 +8,8 @@ Diff2Holo::Diff2Holo(tf2_ros::Buffer& tfBuffer) :
         boost::bind(&Diff2Holo::twistCallback, this, _1));
     vel_pub_ = nh.advertise<Twist>("/cmd_vel", 10);
     nh.param<std::string>("unicycle_frame", unicycle_frame, "Robot_r");
+    nh.param<double>("v_max", v_max, 1.0);
+    nh.param<double>("w_max", w_max, 1.0);
 
     zeroVel(vel_unicycle); 
     zeroVel(vel_mecanum);
@@ -45,8 +47,15 @@ void Diff2Holo::convert2D(const Twist& in, Twist& out,
 }
 
 void Diff2Holo::twistCallback(const Twist::ConstPtr& vel) {
-    vel_unicycle.linear.x = vel->linear.x;
-    vel_unicycle.angular.z = vel->angular.z;
+    if (vel->linear.x < v_max)
+        vel_unicycle.linear.x = vel->linear.x;
+    else 
+        vel_unicycle.linear.x = v_max;
+    if (vel->angular.z < w_max) 
+        vel_unicycle.angular.z = vel->angular.z;
+    else 
+        vel_unicycle.angular.z = w_max; 
+        
     get_transform();
     convert2D(vel_unicycle, vel_mecanum, trans);
 
