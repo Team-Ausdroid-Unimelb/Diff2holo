@@ -28,5 +28,6 @@ private:
 
     void get_transform();
     void zeroVel(Twist& vel);
+    double speed_limit(double speed, double limit);
     void convert2D(const Twist& in, Twist& out, const TransformStamped& trans); 
 };

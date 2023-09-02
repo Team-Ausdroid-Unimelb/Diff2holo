@@ -47,14 +47,8 @@ void Diff2Holo::convert2D(const Twist& in, Twist& out,
 }
 
 void Diff2Holo::twistCallback(const Twist::ConstPtr& vel) {
-    if (vel->linear.x < v_max && vel->linear.x > -v_max)
-        vel_unicycle.linear.x = vel->linear.x;
-    else 
-        vel_unicycle.linear.x = v_max;
-    if (vel->angular.z < w_max && vel->angular.z > -w_max)
-        vel_unicycle.angular.z = vel->angular.z;
-    else 
-        vel_unicycle.angular.z = w_max; 
+    vel_unicycle.linear.x = speed_limit(vel->linear.x, v_max);
+    vel_unicycle.angular.z = speed_limit(vel->angular.z, w_max);
         
     get_transform();
     convert2D(vel_unicycle, vel_mecanum, trans);
@@ -73,5 +67,14 @@ void Diff2Holo::zeroVel(Twist& vel) {
     vel.angular.x = 0;
     vel.angular.y = 0;
     vel.angular.z = 0;
+}
+
+double Diff2Holo::speed_limit(double speed, double limit) {
+    if (abs(speed) < limit)
+        return speed; 
+    else if (speed > limit)
+        return limit;
+    else
+        return -limit;
 }
  
