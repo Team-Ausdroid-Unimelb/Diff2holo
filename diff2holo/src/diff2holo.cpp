@@ -47,11 +47,11 @@ void Diff2Holo::convert2D(const Twist& in, Twist& out,
 }
 
 void Diff2Holo::twistCallback(const Twist::ConstPtr& vel) {
-    if (abs(vel->linear.x) < v_max)
+    if (vel->linear.x < v_max && vel->linear.x > -v_max)
         vel_unicycle.linear.x = vel->linear.x;
     else 
         vel_unicycle.linear.x = v_max;
-    if (abs(vel->angular.z) < w_max) 
+    if (vel->angular.z < w_max && vel->angular.z > -w_max)
         vel_unicycle.angular.z = vel->angular.z;
     else 
         vel_unicycle.angular.z = w_max; 
