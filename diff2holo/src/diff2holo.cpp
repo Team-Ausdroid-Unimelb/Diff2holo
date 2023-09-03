@@ -58,7 +58,6 @@ void Diff2Holo::twistCallback(const Twist::ConstPtr& vel) {
 
 /**
  * @brief Put value of a Twist variable to zero
-}
 */
 void Diff2Holo::zeroVel(Twist& vel) {
     vel.linear.x = 0;
