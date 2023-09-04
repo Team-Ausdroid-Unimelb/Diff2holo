@@ -1,5 +1,7 @@
 #include <diff2holo.h>
 
+#define DEAD_ZONE 0.01
+
 Diff2Holo::Diff2Holo(tf2_ros::Buffer& tfBuffer) : 
     tfBuffer_(tfBuffer) {
     ros::NodeHandle nh;
@@ -69,11 +71,13 @@ void Diff2Holo::zeroVel(Twist& vel) {
 }
 
 double Diff2Holo::speed_limit(double speed, double limit) {
-    if (abs(speed) < limit)
+    if (abs(speed) < limit && abs(speed) > DEAD_ZONE)
         return speed; 
     else if (speed > limit)
         return limit;
-    else
+    else if (speed < -limit)
         return -limit;
+    else 
+        return 0.0;
 }
  
